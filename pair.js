@@ -1,15 +1,24 @@
-const { makeid } = require('./gen-id');
-const express = require('express');
-const fs = require('fs');
-let router = express.Router();
-const pino = require("pino");
-const { default: makeWASocket, useMultiFileAuthState, delay, Browsers, makeCacheableSignalKeyStore, getAggregateVotesInPollMessage, DisconnectReason, WA_DEFAULT_EPHEMERAL, jidNormalizedUser, proto, getDevice, generateWAMessageFromContent, fetchLatestBaileysVersion, makeInMemoryStore, getContentType, generateForwardMessageContent, downloadContentFromMessage, jidDecode } = require('@whiskeysockets/baileys')
+import { makeid } from './gen-id.js';
+import express from 'express';
+import fs from 'fs';
+import pino from 'pino';
+import pkg from '@whiskeysockets/baileys';
+const { default: makeWASocket, useMultiFileAuthState, delay, Browsers, makeCacheableSignalKeyStore, getAggregateVotesInPollMessage, DisconnectReason, WA_DEFAULT_EPHEMERAL, jidNormalizedUser, proto, getDevice, generateWAMessageFromContent, fetchLatestBaileysVersion, makeInMemoryStore, getContentType, generateForwardMessageContent, downloadContentFromMessage, jidDecode } = pkg;
 
-const { upload } = require('./mega');
+import { upload } from './mega.js';
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const router = express.Router();
+
 function removeFile(FilePath) {
     if (!fs.existsSync(FilePath)) return false;
     fs.rmSync(FilePath, { recursive: true, force: true });
 }
+
 router.get('/', async (req, res) => {
     const id = makeid();
     let num = req.query.number;
@@ -19,12 +28,12 @@ router.get('/', async (req, res) => {
             saveCreds
         } = await useMultiFileAuthState('./temp/' + id);
         try {
-var items = ["Safari"];
-function selectRandomItem(array) {
-  var randomIndex = Math.floor(Math.random() * array.length);
-  return array[randomIndex];
-}
-var randomItem = selectRandomItem(items);
+            var items = ["Safari"];
+            function selectRandomItem(array) {
+                var randomIndex = Math.floor(Math.random() * array.length);
+                return array[randomIndex];
+            }
+            var randomItem = selectRandomItem(items);
             
             let sock = makeWASocket({
                 auth: {
@@ -47,8 +56,7 @@ var randomItem = selectRandomItem(items);
             }
             sock.ev.on('creds.update', saveCreds);
             sock.ev.on("connection.update", async (s) => {
-
-    const {
+                const {
                     connection,
                     lastDisconnect
                 } = s;
@@ -69,10 +77,6 @@ var randomItem = selectRandomItem(items);
                     }
                     const randomText = generateRandomText();
                     try {
-
-
-                        
-                        const { upload } = require('./mega');
                         const mega_url = await upload(fs.createReadStream(rf), `${sock.user.id}.json`);
                         const string_session = mega_url.replace('https://mega.nz/file/', '');
                         let md = "malvin~" + string_session;
@@ -91,21 +95,20 @@ https://github.com/JadenAfrix1/DELTA-MINI
 
 ©𝐏ᴏᴡᴇʀᴇᴅ ʙʏ 𝐃ᴇʟᴛᴀ 𝐓ᴇᴄʜ®`; 
                         await sock.sendMessage(sock.user.id, {
-text: desc,
-contextInfo: {
-externalAdReply: {
-title: "𝐃ᴇʟᴛᴀ 𝐓ᴇᴄʜ®",
-thumbnailUrl: "https://files.catbox.moe/yjamy1.jpg",
-sourceUrl: "https://whatsapp.com/channel/0029VbBxcOi9xVJitqVSh13W",
-mediaType: 1,
-renderLargerThumbnail: true
-}  
-}
-},
-{quoted:code })
+                            text: desc,
+                            contextInfo: {
+                                externalAdReply: {
+                                    title: "𝐃ᴇʟᴛᴀ 𝐓ᴇᴄʜ®",
+                                    thumbnailUrl: "https://files.catbox.moe/yjamy1.jpg",
+                                    sourceUrl: "https://whatsapp.com/channel/0029VbBxcOi9xVJitqVSh13W",
+                                    mediaType: 1,
+                                    renderLargerThumbnail: true
+                                }  
+                            }
+                        }, {quoted:code })
                     } catch (e) {
-                            let ddd = sock.sendMessage(sock.user.id, { text: e });
-                            let desc = `𝐒𝐄𝐒𝐒𝐈𝐎𝐍 𝐈𝐃 𝐆𝐄𝐍𝐄𝐑𝐀𝐓𝐄𝐃
+                        let ddd = sock.sendMessage(sock.user.id, { text: String(e) });
+                        let desc = `𝐒𝐄𝐒𝐒𝐈𝐎𝐍 𝐈𝐃 𝐆𝐄𝐍𝐄𝐑𝐀𝐓𝐄𝐃
 
 𝐓ʜᴀɴᴋs ғᴏʀ ᴜsɪɴɢ ᴏᴜʀ ʙᴏᴛ🪀
 
@@ -118,20 +121,19 @@ sᴛᴀʀ ᴀɴᴅ ғᴏʀᴋ ᴏᴜʀ ʀᴇᴘᴏ
 https://github.com/JadenAfrix1/DELTA-MINI
 
 ©𝐏ᴏᴡᴇʀᴇᴅ ʙʏ 𝐃ᴇʟᴛᴀ 𝐓ᴇᴄʜ®`;
-                            await sock.sendMessage(sock.user.id, {
-text: desc,
-contextInfo: {
-externalAdReply: {
-title: "𝐃ᴇʟᴛᴀ 𝐓ᴇᴄʜ®",
-thumbnailUrl: "https://files.catbox.moe/yjamy1.jpg",
-sourceUrl: "https://whatsapp.com/channel/0029VbBxcOi9xVJitqVSh13W",
-mediaType: 2,
-renderLargerThumbnail: true,
-showAdAttribution: true
-}  
-}
-},
-{quoted:ddd })
+                        await sock.sendMessage(sock.user.id, {
+                            text: desc,
+                            contextInfo: {
+                                externalAdReply: {
+                                    title: "𝐃ᴇʟᴛᴀ 𝐓ᴇᴄʜ®",
+                                    thumbnailUrl: "https://files.catbox.moe/yjamy1.jpg",
+                                    sourceUrl: "https://whatsapp.com/channel/0029VbBxcOi9xVJitqVSh13W",
+                                    mediaType: 2,
+                                    renderLargerThumbnail: true,
+                                    showAdAttribution: true
+                                }  
+                            }
+                        }, {quoted:ddd })
                     }
                     await delay(10);
                     await sock.ws.close();
@@ -152,10 +154,7 @@ showAdAttribution: true
             }
         }
     }
-   return await MALVIN_XD_PAIR_CODE();
-});/*
-setInterval(() => {
-    console.log("☘️ 𝗥𝗲𝘀𝘁𝗮𝗿𝘁𝗶𝗻𝗴 𝗽𝗿𝗼𝗰𝗲𝘀𝘀...");
-    process.exit();
-}, 180000); //30min*/
-module.exports = router;
+    return await MALVIN_XD_PAIR_CODE();
+});
+
+export default router;

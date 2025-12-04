@@ -3,10 +3,13 @@
   "version": "0.0.1",
   "description": "A multi functional whatsapp bot Web paircode.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": "pm2 start index.js --deep-monitoring --attach --name malvin-xd",
-    "stop": "pm2 stop malvin-xd",
-    "restart": "pm2 restart malvin-xd"
+    "start": "node index.js",
+    "dev": "node index.js",
+    "pm2:start": "pm2 start index.js --deep-monitoring --attach --name malvin-xd",
+    "pm2:stop": "pm2 stop malvin-xd",
+    "pm2:restart": "pm2 restart malvin-xd"
   },
   "dependencies": {
     "@whiskeysockets/baileys": "npm:angularsockets",

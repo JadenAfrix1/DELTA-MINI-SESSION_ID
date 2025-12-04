@@ -14,7 +14,7 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 5000;
 
 import('events').then(events => {
     events.EventEmitter.defaultMaxListeners = 500;
@@ -34,7 +34,7 @@ app.use('/pair', pairRouter);
 app.use('/qr', qrRouter);
 
 app.listen(PORT, () => {
-    console.log(`YoutTube: @mr_unique_hacker\n\nGitHub: @mruniquehacker\n\nServer running on http://localhost:${PORT}`);
+    console.log(`YoutTube: @jadenafrix\n\nGitHub: JadenAfrix1\n\nServer running on http://localhost:${PORT}`);
 });
 
 export default app;

@@ -1,14 +1,13 @@
 services:
   - type: web
     name: delta-mini-session
-    runtime: node
+    runtime: docker
     plan: free
-    buildCommand: npm install
-    startCommand: node index.js
+    dockerfilePath: ./Dockerfile
     envVars:
-      - key: NODE_VERSION
-        value: 20
+      - key: NODE_ENV
+        value: production
       - key: PORT
-        value: 10000
+        value: 5000
     autoDeploy: true
     healthCheckPath: /
