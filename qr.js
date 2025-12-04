@@ -4,14 +4,7 @@ import QRCode from 'qrcode';
 import fs from 'fs';
 import pino from 'pino';
 import pkg from '@whiskeysockets/baileys';
-const {
-  default: makeWASocket,
-  useMultiFileAuthState,
-  delay,
-  makeCacheableSignalKeyStore,
-  Browsers,
-  jidNormalizedUser
-} = pkg;
+const { default: makeWASocket, useMultiFileAuthState, delay, makeCacheableSignalKeyStore, Browsers } = pkg;
 import { upload } from './mega.js';
 import { fileURLToPath } from 'url';
 import path from 'path';
@@ -21,6 +14,7 @@ const __dirname = path.dirname(__filename);
 
 const router = express.Router();
 
+// Utility to remove temp files safely
 function removeFile(FilePath) {
   if (!fs.existsSync(FilePath)) return false;
   fs.rmSync(FilePath, { recursive: true, force: true });
@@ -29,70 +23,33 @@ function removeFile(FilePath) {
 router.get('/', async (req, res) => {
   const id = makeid();
   async function MALVIN_XD_PAIR_CODE() {
-    const {
-      state,
-      saveCreds
-    } = await useMultiFileAuthState('./temp/' + id);
     try {
-      var items = ["Safari"];
-      
-      function selectRandomItem(array) {
-        var randomIndex = Math.floor(Math.random() * array.length);
-        return array[randomIndex];
-      }
-      var randomItem = selectRandomItem(items);
-      
+      const { state, saveCreds } = await useMultiFileAuthState(`./temp/${id}`);
       let sock = makeWASocket({
         auth: state,
         printQRInTerminal: false,
-        logger: pino({
-          level: "silent"
-        }),
+        logger: pino({ level: "silent" }),
         browser: Browsers.macOS("Desktop"),
       });
       
+      // On credentials update
       sock.ev.on('creds.update', saveCreds);
+      // Connection update
       sock.ev.on("connection.update", async (s) => {
-        const {
-          connection,
-          lastDisconnect,
-          qr
-        } = s;
-        if (qr) await res.end(await QRCode.toBuffer(qr));
-        if (connection == "open") {
-          await delay(5000);
-          let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
-          let rf = __dirname + `/temp/${id}/creds.json`;
-          
-          function generateRandomText() {
-            const prefix = "3EB";
-            const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            let randomText = prefix;
-            for (let i = prefix.length; i < 22; i++) {
-              const randomIndex = Math.floor(Math.random() * characters.length);
-              randomText += characters.charAt(randomIndex);
-            }
-            return randomText;
-          }
-          const randomText = generateRandomText();
+        const { connection, lastDisconnect, qr } = s;
+        if (qr && !res.headersSent) {
+          res.setHeader('Content-Type', 'image/png');
+          res.end(await QRCode.toBuffer(qr));
+        }
+        if (connection === "open") {
           try {
-            const mega_url = await upload(fs.createReadStream(rf), `${sock.user.id}.json`);
+            await delay(5000);
+            let rf = path.join(__dirname, `temp/${id}/creds.json`);
+            let mega_url = await upload(fs.createReadStream(rf), `${sock.user.id}.json`);
             const string_session = mega_url.replace('https://mega.nz/file/', '');
             let md = "malvin~" + string_session;
-            let code = await sock.sendMessage(sock.user.id, { text: md });
-            let desc = `𝐒𝐄𝐒𝐒𝐈𝐎𝐍 𝐈𝐃 𝐆𝐄𝐍𝐄𝐑𝐀𝐓𝐄𝐃
-
-𝐓ʜᴀɴᴋs ғᴏʀ ᴜsɪɴɢ ᴏᴜʀ ʙᴏᴛ🪀
-
-ғᴏʟʟᴏᴡ ᴏᴜʀ ᴡʜᴀᴛsᴀᴘᴘ ᴄʜᴀɴɴᴇʟ
-
-https://whatsapp.com/channel/0029VbBxcOi9xVJitqVSh13W
-
-sᴛᴀʀ ᴀɴᴅ ғᴏʀᴋ ᴏᴜʀ ʀᴇᴘᴏ
-
-https://github.com/JadenAfrix1/DELTA-MINI
-
-©𝐏ᴏᴡᴇʀᴇᴅ ʙʏ 𝐃ᴇʟᴛᴀ 𝐓ᴇᴄʜ®`;
+            await sock.sendMessage(sock.user.id, { text: md });
+            let desc = `𝐒𝐄𝐒𝐒𝐈𝐎𝐍 𝐈𝐃 𝐆𝐄𝐍𝐄𝐑𝐀𝐓𝐄𝐃\n\n𝐓ʜᴀɴᴋs ғᴏʀ ...`;
             await sock.sendMessage(sock.user.id, {
               text: desc,
               contextInfo: {
@@ -104,61 +61,37 @@ https://github.com/JadenAfrix1/DELTA-MINI
                   renderLargerThumbnail: true
                 }
               }
-            }, { quoted: code })
+            });
           } catch (e) {
-            let ddd = sock.sendMessage(sock.user.id, { text: String(e) });
-            let desc = `𝐒𝐄𝐒𝐒𝐈𝐎𝐍 𝐈𝐃 𝐆𝐄𝐍𝐄𝐑𝐀𝐓𝐄𝐃
-
-𝐓ʜᴀɴᴋs ғᴏʀ ᴜsɪɴɢ ᴏᴜʀ ʙᴏᴛ🪀
-
-ғᴏʟʟᴏᴡ ᴏᴜʀ ᴡʜᴀᴛsᴀᴘᴘ ᴄʜᴀɴɴᴇʟ
-
-https://whatsapp.com/channel/0029VbBxcOi9xVJitqVSh13W
-
-sᴛᴀʀ ᴀɴᴅ ғᴏʀᴋ ᴏᴜʀ ʀᴇᴘᴏ
-
-https://github.com/JadenAfrix1/DELTA-MINI
-
-©𝐏ᴏᴡᴇʀᴇᴅ ʙʏ 𝐃ᴇʟᴛᴀ 𝐓ᴇᴄʜ®`;
-            await sock.sendMessage(sock.user.id, {
-              text: desc,
-              contextInfo: {
-                externalAdReply: {
-                  title: "𝐃ᴇʟᴛᴀ 𝐓ᴇᴄʜ",
-                  thumbnailUrl: "https://files.catbox.moe/yjamy1.jpg",
-                  sourceUrl: "https://whatsapp.com/channel/0029VbBxcOi9xVJitqVSh13W",
-                  mediaType: 2,
-                  renderLargerThumbnail: true,
-                  showAdAttribution: true
-                }
-              }
-            }, { quoted: ddd })
+            await sock.sendMessage(sock.user.id, { text: String(e) });
+            if (!res.headersSent) {
+              res.status(500).json({ error: String(e) });
+            }
+          } finally {
+            await delay(10);
+            sock.ws.close();
+            removeFile(`./temp/${id}`);
           }
-          await delay(10);
-          await sock.ws.close();
-          await removeFile('./temp/' + id);
-          console.log(`👤 ${sock.user.id} 𝗖𝗼𝗻𝗻𝗲𝗰𝘁𝗲𝗱 ✅ 𝗥𝗲𝘀𝘁𝗮𝗿𝘁𝗶𝗻𝗴 𝗽𝗿𝗼𝗰𝗲𝘀𝘀...`);
-          await delay(10);
-          process.exit();
-        } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
+        } else if (
+          connection === "close" &&
+          lastDisconnect &&
+          lastDisconnect.error &&
+          lastDisconnect.error.output.statusCode != 401
+        ) {
           await delay(10);
           MALVIN_XD_PAIR_CODE();
         }
       });
     } catch (err) {
-      console.log("service restated");
-      await removeFile('./temp/' + id);
+      removeFile(`./temp/${id}`);
       if (!res.headersSent) {
-        await res.send({ code: "❗ Service Unavailable" });
+        res.status(503).json({ code: "❗ Service Unavailable" });
       }
     }
   }
   await MALVIN_XD_PAIR_CODE();
 });
 
-setInterval(() => {
-  console.log("☘️ 𝗥𝗲𝘀𝘁𝗮𝗿𝘁𝗶𝗻𝗴 𝗽𝗿𝗼𝗰𝗲𝘀𝘀...");
-  process.exit();
-}, 180000);
+// Removed process.exit()-based restart loop for cloud stability!
 
 export default router;

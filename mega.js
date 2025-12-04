@@ -1,9 +1,9 @@
 import * as mega from 'megajs';
 
-// Mega authentication credentials
+// Use environment variables for credentials
 const auth = {
-    email: 'jadenafrix1@gmail.com', // Replace with your Mega email
-    password: "Mahachi2007.", // Replace with your Mega password
+    email: process.env.MEGA_EMAIL,
+    password: process.env.MEGA_PASSWORD,
     userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246'
 };
 
@@ -11,33 +11,30 @@ const auth = {
 export const upload = (data, name) => {
     return new Promise((resolve, reject) => {
         try {
-            // Authenticate with Mega storage
+            if (!auth.email || !auth.password) {
+                return reject('Missing MEGA_EMAIL or MEGA_PASSWORD environment variable.');
+            }
             const storage = new mega.Storage(auth, () => {
-                // Upload the data stream (e.g., file stream) to Mega
                 const uploadStream = storage.upload({ name: name, allowUploadBuffering: true });
-
-                // Pipe the data into Mega
                 data.pipe(uploadStream);
-
-                // When the file is successfully uploaded, resolve with the file's URL
+                
                 storage.on("add", (file) => {
                     file.link((err, url) => {
                         if (err) {
-                            reject(err); // Reject if there's an error getting the link
+                            reject(err);
                         } else {
-                            storage.close(); // Close the storage session once the file is uploaded
-                            resolve(url); // Return the file's link
+                            storage.close();
+                            resolve(url);
                         }
                     });
                 });
-
-                // Handle errors during file upload process
+                
                 storage.on("error", (error) => {
                     reject(error);
                 });
             });
         } catch (err) {
-            reject(err); // Reject if any error occurs during the upload process
+            reject(err);
         }
     });
 };
@@ -46,21 +43,17 @@ export const upload = (data, name) => {
 export const download = (url) => {
     return new Promise((resolve, reject) => {
         try {
-            // Get file from Mega using the URL
             const file = mega.File.fromURL(url);
-
             file.loadAttributes((err) => {
                 if (err) {
                     reject(err);
                     return;
                 }
-
-                // Download the file buffer
                 file.downloadBuffer((err, buffer) => {
                     if (err) {
                         reject(err);
                     } else {
-                        resolve(buffer); // Return the file buffer
+                        resolve(buffer);
                     }
                 });
             });

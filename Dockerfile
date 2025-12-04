@@ -1,25 +1,20 @@
-FROM node:20-bookworm-slim
+# Use official Node LTS image
+FROM node:18-alpine
 
-RUN apt-get update && \
-  apt-get install -y --no-install-recommends \
-  ffmpeg \
-  imagemagick \
-  webp \
-  ca-certificates && \
-  apt-get clean && \
-  rm -rf /var/lib/apt/lists/*
-
+# Set working directory
 WORKDIR /usr/src/app
 
+# Copy dependency files
 COPY package*.json ./
 
-RUN npm ci --omit=dev 2>/dev/null || npm install --omit=dev
+# Install dependencies
+RUN npm install --production
 
+# Copy app source
 COPY . .
 
-ENV NODE_ENV=production
-ENV PORT=5000
-
+# Expose Render port
 EXPOSE 5000
 
-CMD ["node", "index.js"]
+# Start the server
+CMD ["npm", "start"]
