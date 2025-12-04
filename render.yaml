@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: delta-mini-session
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node index.js
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: PORT
+        value: 10000
+    autoDeploy: true
+    healthCheckPath: /

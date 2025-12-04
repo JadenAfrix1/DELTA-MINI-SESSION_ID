@@ -3,129 +3,385 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="" type="image/x-icon">
+  <title>DELTA TECH - Session Generator</title>
+  <link rel="shortcut icon" href="https://files.catbox.moe/yjamy1.jpg" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body {
-      background-color: black;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
+    * {
       margin: 0;
-      color: white;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    {
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "url": "https://railway.app",
-            "logo": "https://files.catbox.moe/39z8jd.jpg"
-    }
-
-    .button-container {
-      text-align: center;
+    body {
+      background: linear-gradient(135deg, #0a1628 0%, #1a2a4a 50%, #0d1b2a 100%);
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: flex-start;
+      font-family: 'Poppins', sans-serif;
+      color: #ffffff;
+      padding: 20px;
+      overflow-x: hidden;
     }
 
-    h3 {
-      margin-top: -40px;
-      opacity: 0;
-      animation: fadeIn 3s forwards;
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
     }
 
-    .button {
-      width: 140px;
-      height: 40px;
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: rgba(100, 149, 237, 0.6);
+      border-radius: 50%;
+      animation: float 15s infinite ease-in-out;
+    }
+
+    .particle:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 12s; }
+    .particle:nth-child(2) { left: 20%; animation-delay: 2s; animation-duration: 14s; }
+    .particle:nth-child(3) { left: 30%; animation-delay: 4s; animation-duration: 16s; }
+    .particle:nth-child(4) { left: 40%; animation-delay: 1s; animation-duration: 13s; }
+    .particle:nth-child(5) { left: 50%; animation-delay: 3s; animation-duration: 15s; }
+    .particle:nth-child(6) { left: 60%; animation-delay: 5s; animation-duration: 11s; }
+    .particle:nth-child(7) { left: 70%; animation-delay: 0.5s; animation-duration: 17s; }
+    .particle:nth-child(8) { left: 80%; animation-delay: 2.5s; animation-duration: 14s; }
+    .particle:nth-child(9) { left: 90%; animation-delay: 4.5s; animation-duration: 12s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+    }
+
+    .header {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      margin-bottom: 30px;
+      animation: slideDown 0.8s ease-out;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .header-image {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #4a90e2;
+      box-shadow: 0 0 30px rgba(74, 144, 226, 0.5), 0 0 60px rgba(74, 144, 226, 0.3);
+      margin-bottom: 20px;
+      animation: pulse 3s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 30px rgba(74, 144, 226, 0.5), 0 0 60px rgba(74, 144, 226, 0.3); }
+      50% { box-shadow: 0 0 50px rgba(74, 144, 226, 0.8), 0 0 100px rgba(74, 144, 226, 0.5); }
+    }
+
+    .title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #4a90e2, #67b8f7, #4a90e2);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s linear infinite;
+      text-shadow: none;
+      margin-bottom: 10px;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: #8ba5c7;
+      font-weight: 300;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      background: rgba(26, 42, 74, 0.8);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 40px;
+      border: 1px solid rgba(74, 144, 226, 0.3);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+      max-width: 420px;
+      width: 100%;
+      animation: fadeIn 1s ease-out 0.3s both;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 25px;
+      color: #67b8f7;
+    }
+
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 16px 24px;
+      border-radius: 14px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+      color: white;
+      box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(74, 144, 226, 0.6);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #2d4a6f 0%, #1e3a5f 100%);
+      color: #67b8f7;
+      border: 1px solid rgba(74, 144, 226, 0.4);
+    }
+
+    .btn-secondary:hover {
+      background: linear-gradient(135deg, #3d5a7f 0%, #2e4a6f 100%);
+      transform: translateY(-3px);
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(74, 144, 226, 0.5), transparent);
+      margin: 25px 0;
+    }
+
+    .social-section {
+      text-align: center;
+    }
+
+    .social-title {
+      font-size: 0.9rem;
+      color: #8ba5c7;
+      margin-bottom: 20px;
+      font-weight: 400;
+    }
+
+    .social-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .social-btn {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      padding: 0px 15px;
-      background-color: red;
-      border-radius: 10px;
+      padding: 14px 20px;
+      border-radius: 12px;
       border: none;
-      color: white;
-      position: relative;
+      font-size: 0.95rem;
+      font-weight: 500;
+      font-family: 'Poppins', sans-serif;
       cursor: pointer;
-      font-weight: 900;
-      transition-duration: .2s;
-      background: linear-gradient(0deg, #000, #272727);
       text-decoration: none;
+      transition: all 0.3s ease;
     }
 
-  
+    .social-btn.telegram {
+      background: linear-gradient(135deg, #0088cc 0%, #0077b5 100%);
+      color: white;
+    }
+
+    .social-btn.telegram:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 136, 204, 0.4);
+    }
+
+    .social-btn.whatsapp {
+      background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+      color: white;
+    }
+
+    .social-btn.whatsapp:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+    }
+
+    .social-btn.github {
+      background: linear-gradient(135deg, #333 0%, #24292e 100%);
+      color: white;
+    }
+
+    .social-btn.github:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(36, 41, 46, 0.6);
+    }
+
     footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: #222; /* Darker gray footer background */
-    color: #fff;
-    padding: 10px 0;
-    text-align: center;
-    font-size: 14px;
-    
-  }
-    .button:before, .button:after {
-      content: '';
-      position: absolute;
-      left: -2px;
-      top: -2px;
-      border-radius: 10px;
-      background: linear-gradient(45deg, #48ff00, #15ff00, #000000,#000000, #ff0000);
-      background-size: 400%;
-      width: calc(100% + 4px);
-      height: calc(100% + 4px);
-      z-index: -1;
-      animation: steam 10s linear infinite;
-    }
-
-    @keyframes steam {
-      0% {
-        background-position: 0 0;
-      }
-
-      50% {
-        background-position: 400% 0;
-      }
-
-      100% {
-        background-position: 0 0;
-      }
-    }
-
-    .button:after {
-      filter: blur(50px);
-    }
-
-    .button span {
+      position: relative;
       z-index: 1;
+      margin-top: 40px;
+      text-align: center;
+      padding: 20px;
+      color: #6b8ab8;
+      font-size: 0.85rem;
     }
 
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
+    footer a {
+      color: #4a90e2;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: #67b8f7;
+    }
+
+    .glow-text {
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 5px #4a90e2, 0 0 10px #4a90e2; }
+      to { text-shadow: 0 0 10px #67b8f7, 0 0 20px #67b8f7, 0 0 30px #67b8f7; }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 25px;
+        margin: 0 10px;
+      }
+
+      .title {
+        font-size: 1.8rem;
+      }
+
+      .header-image {
+        width: 140px;
+        height: 140px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="button-container">
-    <h3> MALVIN SESSION</h3>
-    <div></div>
-    <a href="/qr" class="button" target="_blank"> <span>QR-CODE</span> </a> <br>
-    <a href="/pair" class="button" target="_blank"> <span>PAIRING-CODE</span> </a> <br>
-    <a href="https://github.com/XdKing2/MALVIN-XD/fork" class="button" target="_blank"> <span>FORK MALVIN XD</span> </a> <br> </a>
-    <a href="https://whatsapp.com/channel/0029VbA6MSYJUM2TVOzCSb2A" class="button" target="_blank"> <span>WhatsApp</span> </a> <br>
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
 
-    <p>HAVE ANY ERROR CLICK ERROR BUTTON</p>
+  <div class="header">
+    <img src="https://files.catbox.moe/yjamy1.jpg" alt="Delta Tech" class="header-image">
+    <h1 class="title">DELTA TECH</h1>
+    <p class="subtitle">Premium Session Generator</p>
+  </div>
 
-    <a href="https://wa.me/263780166288" class="button" target="_blank"> <span>ERROR</span> </a> <br>
+  <div class="container">
+    <h2 class="section-title"><i class="fas fa-link"></i> Get Your Session</h2>
+    
+    <div class="button-group">
+      <a href="/qr" class="btn btn-primary" target="_blank">
+        <i class="fas fa-qrcode"></i>
+        <span>QR CODE</span>
+      </a>
+      <a href="/pair" class="btn btn-primary" target="_blank">
+        <i class="fas fa-mobile-alt"></i>
+        <span>PAIRING CODE</span>
+      </a>
+    </div>
 
-    <footer>
-     MALVIN &copy; <span id="currentYear"></span>
-    </footer>
-  
+    <div class="divider"></div>
+
+    <div class="social-section">
+      <p class="social-title">Connect with Delta Tech</p>
+      <div class="social-buttons">
+        <a href="https://t.me/the_delta_tech" class="social-btn telegram" target="_blank">
+          <i class="fab fa-telegram-plane"></i>
+          <span>DELTA TECH TG</span>
+        </a>
+        <a href="https://whatsapp.com/channel/0029VbBxcOi9xVJitqVSh13W" class="social-btn whatsapp" target="_blank">
+          <i class="fab fa-whatsapp"></i>
+          <span>WHATSAPP CHANNEL</span>
+        </a>
+        <a href="https://github.com/JadenAfrix1/DELTA-MINI" class="social-btn github" target="_blank">
+          <i class="fab fa-github"></i>
+          <span>REPOSITORY</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p class="glow-text">DELTA TECH &copy; <span id="currentYear"></span></p>
+    <p style="margin-top: 8px;">Powered by <a href="https://t.me/the_delta_tech" target="_blank">Delta Tech Team</a></p>
+  </footer>
+
+  <script>
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>

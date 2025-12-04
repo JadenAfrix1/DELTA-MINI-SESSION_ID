@@ -1,178 +1,425 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1737874207490861"
-            crossorigin="anonymous"></script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> QR SCANER</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&amp;display=swap" rel="stylesheet">
-    <title>QR</title>
-    <style>
-        .bg {
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-size: 400% 400%;
-            animation: AnimateBG 25s ease infinite;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DELTA TECH - QR Scanner</title>
+  <link rel="shortcut icon" href="https://files.catbox.moe/yjamy1.jpg" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        @keyframes AnimateBG {
-            0% {
-                background-position: 0% 50%
-            }
+    body {
+      background: linear-gradient(135deg, #0a1628 0%, #1a2a4a 50%, #0d1b2a 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      font-family: 'Poppins', sans-serif;
+      color: #ffffff;
+      padding: 20px;
+      overflow-x: hidden;
+    }
 
-            50% {
-                background-position: 100% 50%
-            }
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
 
-            100% {
-                background-position: 0% 50%
-            }
-        }
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: rgba(100, 149, 237, 0.6);
+      border-radius: 50%;
+      animation: float 15s infinite ease-in-out;
+    }
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: "Outfit";
-            background: linear-gradient(-45deg, #4a90e2, #3ac569, #9b59b6, #e74c3c);
-            background-size: 400% 400%;
-            animation: gradient 10s ease infinite;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    .particle:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 12s; }
+    .particle:nth-child(2) { left: 20%; animation-delay: 2s; animation-duration: 14s; }
+    .particle:nth-child(3) { left: 30%; animation-delay: 4s; animation-duration: 16s; }
+    .particle:nth-child(4) { left: 40%; animation-delay: 1s; animation-duration: 13s; }
+    .particle:nth-child(5) { left: 50%; animation-delay: 3s; animation-duration: 15s; }
+    .particle:nth-child(6) { left: 60%; animation-delay: 5s; animation-duration: 11s; }
+    .particle:nth-child(7) { left: 70%; animation-delay: 0.5s; animation-duration: 17s; }
+    .particle:nth-child(8) { left: 80%; animation-delay: 2.5s; animation-duration: 14s; }
+    .particle:nth-child(9) { left: 90%; animation-delay: 4.5s; animation-duration: 12s; }
 
-        @keyframes gradient {
-            0% {
-                background-position: 0% 50%;
-            }
+    @keyframes float {
+      0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+    }
 
-            50% {
-                background-position: 100% 50%;
-            }
+    .header {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      margin-bottom: 25px;
+      animation: slideDown 0.8s ease-out;
+    }
 
-            100% {
-                background-position: 0% 50%;
-            }
-        }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-        jsl.code {
-            overflow: hidden;
-            background: linear-gradient(-45deg, #f1c40f, #3498db, #2ecc71, #e74c3c);
-            background-size: 400% 400%;
-            animation: gradient 8s ease infinite;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            font-family: 'Montserrat', sans-serif;
-            height: 110vh;
-            margin: 0px;
+    .header-image {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #4a90e2;
+      box-shadow: 0 0 25px rgba(74, 144, 226, 0.5), 0 0 50px rgba(74, 144, 226, 0.3);
+      margin-bottom: 15px;
+      animation: pulse 3s infinite ease-in-out;
+    }
 
-        }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 25px rgba(74, 144, 226, 0.5), 0 0 50px rgba(74, 144, 226, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(74, 144, 226, 0.8), 0 0 80px rgba(74, 144, 226, 0.5); }
+    }
 
-        p.legend {
-            color: #fff;
-            font-size: 1em;
-            font-weight: 400;
-            padding: 0em 1.1em;
-            margin-top: 0.1em;
-        }
+    .title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #4a90e2, #67b8f7, #4a90e2);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s linear infinite;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            overflow: hidden;
-        }
+    @keyframes shimmer {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
 
-        :root {
-            --main-color: hsl(212, 45%, 89%);
-            --principalText-color: hsl(218, 44%, 22%);
-            --secondText-color: hsl(220, 15%, 55%);
-        }
+    .container {
+      position: relative;
+      z-index: 1;
+      background: rgba(26, 42, 74, 0.85);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 30px;
+      border: 1px solid rgba(74, 144, 226, 0.3);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+      max-width: 380px;
+      width: 100%;
+      animation: fadeIn 1s ease-out 0.3s both;
+    }
 
-        #content {
-            display: flex;
-            flex-direction: column;
-            width: 22rem;
-            text-align: center;
-            background-color: #000000;
-            padding: 1rem;
-            border-radius: 14px;
-        }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-        #QR-content img {
-            border-radius: 10px;
-            width: 20rem;
-        }
+    .qr-section {
+      text-align: center;
+    }
 
-        #title-container {
-            padding: 1rem 1rem 0 1rem;
-            color: #fff;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #67b8f7;
+    }
 
-        #description-container {
-            padding: 0 2.5rem 0 2.5rem;
-            color: #fff;
-            margin-bottom: 2rem;
-        }
+    .qr-wrapper {
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 16px;
+      display: inline-block;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
 
-        #p-legend {
-            font-size: 1em;
-            font-weight: 400;
-            padding: 0em 1.1em;
-            margin-top: 0.1em;
-        }
+    .qr-wrapper img {
+      width: 250px;
+      height: 250px;
+      border-radius: 10px;
+      display: block;
+    }
 
-        .reload-button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #3498db; /* Blue color */
-            color: #fff; /* White text color */
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
+    .timer-section {
+      margin: 20px 0;
+    }
 
-        .reload-button:hover {
-            background-color: #2980b9; /* Darker blue color on hover */
-        }
-    </style>
-    <script>
-        var timeleft = 30;
-        var downloadTimer = setInterval(function () {
-            if (timeleft <= 0) {
-                clearInterval(downloadTimer);
-                document.getElementById("progressBar").remove();
-                document.getElementById("main").innerHTML = "QR Expired! Please reload";
-                document.getElementById("legend").innerHTML = ""
-            }
-            document.getElementById("progressBar").value = 30 - timeleft;
-            timeleft -= 1;
-        }, 1000);
-    </script>
+    .timer-text {
+      font-size: 0.9rem;
+      color: #8ba5c7;
+      margin-bottom: 10px;
+    }
+
+    .timer-text #main {
+      color: #67b8f7;
+      font-weight: 600;
+    }
+
+    .progress-wrapper {
+      background: rgba(13, 27, 42, 0.8);
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 15px;
+    }
+
+    progress {
+      width: 100%;
+      height: 8px;
+      border-radius: 6px;
+      overflow: hidden;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    progress::-webkit-progress-bar {
+      background: rgba(74, 144, 226, 0.2);
+      border-radius: 6px;
+    }
+
+    progress::-webkit-progress-value {
+      background: linear-gradient(90deg, #4a90e2, #67b8f7);
+      border-radius: 6px;
+      transition: width 0.5s ease;
+    }
+
+    progress::-moz-progress-bar {
+      background: linear-gradient(90deg, #4a90e2, #67b8f7);
+      border-radius: 6px;
+    }
+
+    .reload-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 28px;
+      background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4);
+    }
+
+    .reload-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(74, 144, 226, 0.6);
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(74, 144, 226, 0.5), transparent);
+      margin: 25px 0;
+    }
+
+    .social-section {
+      text-align: center;
+    }
+
+    .social-title {
+      font-size: 0.85rem;
+      color: #8ba5c7;
+      margin-bottom: 15px;
+    }
+
+    .social-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .social-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      flex: 1;
+      min-width: 90px;
+    }
+
+    .social-btn.telegram {
+      background: linear-gradient(135deg, #0088cc 0%, #0077b5 100%);
+      color: white;
+    }
+
+    .social-btn.whatsapp {
+      background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+      color: white;
+    }
+
+    .social-btn.github {
+      background: linear-gradient(135deg, #333 0%, #24292e 100%);
+      color: white;
+    }
+
+    .social-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .powered-by {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, #4a90e2, #67b8f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { filter: drop-shadow(0 0 5px rgba(74, 144, 226, 0.5)); }
+      to { filter: drop-shadow(0 0 15px rgba(74, 144, 226, 0.8)); }
+    }
+
+    .expired-message {
+      color: #ff6b6b;
+      font-weight: 600;
+      padding: 20px;
+      background: rgba(255, 107, 107, 0.1);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 107, 107, 0.3);
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px;
+        margin: 0 10px;
+      }
+
+      .title {
+        font-size: 1.4rem;
+      }
+
+      .header-image {
+        width: 80px;
+        height: 80px;
+      }
+
+      .qr-wrapper img {
+        width: 200px;
+        height: 200px;
+      }
+
+      .social-buttons {
+        flex-direction: column;
+      }
+
+      .social-btn {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="bg">
-    <div id="content">
-        <div id="QR-content">
-            <img id="qr-image" src="/server" alt="QR CODE">
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <div class="header">
+    <img src="https://files.catbox.moe/yjamy1.jpg" alt="Delta Tech" class="header-image">
+    <h1 class="title">DELTA QR SCANNER</h1>
+  </div>
+
+  <div class="container">
+    <div class="qr-section">
+      <h2 class="section-title"><i class="fas fa-qrcode"></i> Scan QR Code</h2>
+      
+      <div class="qr-wrapper">
+        <img id="qr-image" src="/server" alt="QR CODE">
+      </div>
+
+      <div class="timer-section">
+        <p class="timer-text">
+          <span id="main">Scan the QR Code</span>
+          <span id="legend"></span>
+        </p>
+        <div class="progress-wrapper">
+          <progress value="0" max="30" id="progressBar"></progress>
         </div>
-        <div id="title-container">
-            <h2 id="main">𝐃ᴇʟᴛᴀ 𝐓ᴇᴄʜ®</h2>
-            <p class="legend" id="legend">Scan The QR Code</p>
-        </div>
-        <div id="description-container">
-            <p id="semi" class="legend"></p>
-            <progress value="0" max="30" id="progressBar"></progress>
-        </div>
-        <a href="javascript:history.go(0)" class="reload-button">Reload Page</a>
+      </div>
+
+      <a href="javascript:history.go(0)" class="reload-btn">
+        <i class="fas fa-sync-alt"></i>
+        <span>Reload Page</span>
+      </a>
     </div>
-</div>
+
+    <div class="divider"></div>
+
+    <div class="social-section">
+      <p class="social-title">Connect with Delta Tech</p>
+      <div class="social-buttons">
+        <a href="https://t.me/the_delta_tech" class="social-btn telegram" target="_blank">
+          <i class="fab fa-telegram-plane"></i>
+          <span>Telegram</span>
+        </a>
+        <a href="https://whatsapp.com/channel/0029VbBxcOi9xVJitqVSh13W" class="social-btn whatsapp" target="_blank">
+          <i class="fab fa-whatsapp"></i>
+          <span>WhatsApp</span>
+        </a>
+        <a href="https://github.com/JadenAfrix1/DELTA-MINI" class="social-btn github" target="_blank">
+          <i class="fab fa-github"></i>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </div>
+
+    <p class="powered-by">Powered By Delta Tech</p>
+  </div>
+
+  <script>
+    var timeleft = 30;
+    var downloadTimer = setInterval(function () {
+      if (timeleft <= 0) {
+        clearInterval(downloadTimer);
+        document.getElementById("progressBar").remove();
+        document.getElementById("main").innerHTML = '<span class="expired-message"><i class="fas fa-exclamation-triangle"></i> QR Expired! Please reload</span>';
+        document.getElementById("legend").innerHTML = "";
+      }
+      document.getElementById("progressBar").value = 30 - timeleft;
+      timeleft -= 1;
+    }, 1000);
+  </script>
 </body>
 </html>
